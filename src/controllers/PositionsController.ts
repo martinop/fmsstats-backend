@@ -5,7 +5,11 @@ class PositionsController {
   static get = async function(source: any, args: {[competition: string]: number}) {
 		const { competition } = args;
 		try {
-			const data = await getRepository(Position).find({...competition && { where: { competition }}});
+			const data = await getRepository(Position)
+				.find({
+					relations: ['competition'],
+					...competition && { where: { competition }}
+				});
 			return { data }
 		} catch(e) {
 			throw new Error(e);
