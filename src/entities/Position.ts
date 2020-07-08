@@ -18,7 +18,7 @@ export class Position extends BaseEntity {
   @JoinColumn()
   participant: Participant;
 
-  @ManyToOne(type => Participant)
+  @ManyToOne(type => Competition)
   @JoinColumn()
   competition: Competition;
 

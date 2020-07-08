@@ -1,5 +1,13 @@
 export default `
 
+
+	type Participant {
+		id: Int!
+		name: String!
+		type: String
+		imageUrl: String
+	}
+
 	type Competition {
 		id: Int
 		name: String
@@ -13,6 +21,7 @@ export default `
 		winsReplica: Int
 		losesReplica: Int
 		ptb: Int
+		participant: Participant
 		competition: Competition
 	}
 
