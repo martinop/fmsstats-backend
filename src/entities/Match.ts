@@ -84,10 +84,10 @@ export class Match extends BaseEntity {
         .set({
           points: () => `points + ${directWin ? 3 : 2}`,
           ...directWin && { wins: () => 'wins + 1'},
+          ...!directWin && { wins_replica: () => 'wins_replica + 1'},
           ...this.votes.length && {
             ptb: () => `ptb + ${ptb}`,
           }
-          // ...!directWin && { winsReplica: () => 'winsReplica + 1'},
         })
         .where("participant.id = :id", { id: this.winner.id })
         .execute()
@@ -101,10 +101,10 @@ export class Match extends BaseEntity {
         .set({
           points: () => `points + ${directLose ? 0 : 1}`,
           ...directLose && { loses: () => 'loses + 1'},
+          ...!directLose && { loses_replica: () => 'loses_replica + 1'},
           ...this.votes.length && {
             ptb: () => `ptb + ${ptb}`,
           }
-          // ...!directWin && { winsReplica: () => 'winsReplica + 1'},
         })
         .where("participant.id = :id", { id: this.loser.id })
         .execute()

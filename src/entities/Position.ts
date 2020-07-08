@@ -32,10 +32,10 @@ export class Position extends BaseEntity {
 	loses: number;
 
 	@Column({ default: 0 })
-	winsReplica: number;
+	wins_replica: number;
 
 	@Column({ default: 0 })
-	losesReplica: number;
+	loses_replica: number;
 
 	@Column({ default: 0 })
 	ptb: number;
