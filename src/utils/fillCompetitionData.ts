@@ -14,7 +14,7 @@ const startDate = moment().subtract(2, 'weeks');
 
 export default async function fillCompetitionData(name: string, participants: Participant[]) {
 	const competition = new Competition();
-	competition.name = "FMS España";
+	competition.name = name;
 	competition.participants = participants;
 
 	const freestylers = participants.filter(e => e.type === ParticipantType.FREESTYLER);
