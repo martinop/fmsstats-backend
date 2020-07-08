@@ -6,6 +6,9 @@ import {
   JoinColumn,
 	BaseEntity,
 	OneToMany,
+  AfterInsert,
+  getRepository,
+  getManager,
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Participant } from "./Participant";
@@ -14,6 +17,7 @@ import { Round } from "./Round";
 import { Vote } from "./Vote";
 import { Word } from "./Word";
 import { Thematic } from "./Thematic";
+import { Position } from "./Position";
 
 @Entity()
 export class Match extends BaseEntity {
@@ -53,5 +57,12 @@ export class Match extends BaseEntity {
 	words: Word[];
 
 	@OneToMany(type => Thematic, thematic => thematic.match, {cascade: true })
-	thematics: Thematic[];
+  thematics: Thematic[];
+  
+  @AfterInsert()
+  updatePositions() {
+    if(this.winner) {
+      // TODO: update positions table based on matches
+    }
+  }
 }
