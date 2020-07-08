@@ -8,6 +8,7 @@ class PositionsController {
 			const data = await getRepository(Position)
 				.find({
 					relations: ['competition', 'participant'],
+					order: { points: 'DESC', ptb: 'DESC' },
 					...competition && { where: { competition }}
 				});
 			return { data }
