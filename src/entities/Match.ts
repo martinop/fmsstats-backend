@@ -18,6 +18,7 @@ import { Vote } from "./Vote";
 import { Word } from "./Word";
 import { Thematic } from "./Thematic";
 import { Position } from "./Position";
+import { JudgeStats } from "./JudgeStats";
 
 function getParticipantPTB() {
 
@@ -73,18 +74,35 @@ export class Match extends BaseEntity {
     return ptb / this.votes.length;
   }
 
+  updateJudgeStats() {
+    for(const vote of this.votes) {
+      const correct = vote.winner.id === this.winner.id;
+      getConnection()
+        .createQueryBuilder()
+        .update(JudgeStats)
+        .set({
+          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => '(corrects + 1) / CAST((corrects + fails + 1) as FLOAT)' },
+          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'corrects / CAST((corrects + fails + 1) as FLOAT)' }
+        })
+        .where('"judgeId" = :judge', { judge: vote.judge.id })
+        .andWhere('"competitionId" = :competition', { competition: this.round.competition.id })
+        .execute();
+    };
+  }
+
   @AfterInsert()
   async updatePositions() {
     if(this.winner) {
       const directWin = this.winType === WinType.DIRECT;
       const ptb = this.getPTBAverage();
+      this.updateJudgeStats();
       getConnection()
         .createQueryBuilder()
         .update(Position)
         .set({
           points: () => `points + ${directWin ? 3 : 2}`,
           ...directWin && { wins: () => 'wins + 1'},
-          ...!directWin && { wins_replica: () => 'wins_replica + 1'},
+          ...!directWin && { winsReplica: () => '"winsReplica" + 1'},
           ...this.votes.length && {
             ptb: () => `ptb + ${ptb}`,
           }
@@ -101,7 +119,7 @@ export class Match extends BaseEntity {
         .set({
           points: () => `points + ${directLose ? 0 : 1}`,
           ...directLose && { loses: () => 'loses + 1'},
-          ...!directLose && { loses_replica: () => 'loses_replica + 1'},
+          ...!directLose && { losesReplica: () => '"losesReplica" + 1'},
           ...this.votes.length && {
             ptb: () => `ptb + ${ptb}`,
           }

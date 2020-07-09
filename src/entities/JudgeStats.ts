@@ -1,42 +1,35 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
 	BaseEntity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  ManyToOne,
+  AfterUpdate,
 } from "typeorm";
 import { Participant } from "./Participant";
 import { Competition } from "./Competition";
 
 @Entity()
-export class Position extends BaseEntity {
+export class JudgeStats extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(type => Participant)
   @JoinColumn()
-  participant: Participant;
+  judge: Participant;
 
   @ManyToOne(type => Competition)
   @JoinColumn()
   competition: Competition;
 
 	@Column({ default: 0 })
-	points: number;
+	fails: number;
 
 	@Column({ default: 0 })
-	wins: number;
+	corrects: number;
 
-	@Column({ default: 0 })
-	loses: number;
-
-	@Column({ default: 0 })
-	winsReplica: number;
-
-	@Column({ default: 0 })
-	losesReplica: number;
-
-	@Column({ default: 0 })
-	ptb: number;
+  @Column({ default: 0, type: 'numeric' })
+  effectiveness: number
 }

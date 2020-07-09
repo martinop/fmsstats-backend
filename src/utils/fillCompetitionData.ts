@@ -9,6 +9,7 @@ import buildMatches from "./buildMatches";
 import { Round } from "../entities/Round";
 import { Match } from "../entities/Match";
 import { Vote } from "../entities/Vote";
+import { JudgeStats } from '../entities/JudgeStats';
 
 const startDate = moment().subtract(2, 'weeks');
 
@@ -18,6 +19,7 @@ export default async function fillCompetitionData(name: string, participants: Pa
 	competition.participants = participants;
 
 	const freestylers = participants.filter(e => e.type === ParticipantType.FREESTYLER);
+	const judges = participants.filter(e => e.type === ParticipantType.JUDGE);
 
 	// Save Competition
 	await getRepository(Competition).save(competition);
@@ -28,6 +30,14 @@ export default async function fillCompetitionData(name: string, participants: Pa
 		position.participant = freestyler;
 		position.competition = competition;
 		return position;
+	}))
+
+	// Save initial judge stats
+	await getRepository(JudgeStats).save(judges.map(judge => {
+		const judgeStat = new JudgeStats();
+		judgeStat.judge = judge;
+		judgeStat.competition = competition;
+		return judgeStat;
 	}))
 
 	const roundsWithMatches = buildMatches(freestylers.length - 1, freestylers.map(e => e.id))
@@ -54,36 +64,36 @@ async function saveMatches(matches: number[][], round: Round, finished: boolean,
 	for await(let matchParticipants of matches) {
 		const [homeId, awayId] = matchParticipants;
 		const match = new Match();
-		match.home = homeId as unknown as Participant
-		match.away = awayId as unknown as Participant
+		match.home = { id: homeId } as unknown as Participant
+		match.away = { id: awayId } as unknown as Participant
 		match.round = round;
 		if(finished) {
 			const judges = participants.filter(e => e.type === ParticipantType.JUDGE);
-			const matchWinner = new Participant();
-			matchWinner.id = Math.random() > 0.5 ? homeId : awayId;
-			const matchLoser = new Participant();
-			matchLoser.id = matchWinner.id === homeId ? awayId : homeId;
-			match.winner = matchWinner;
-			match.loser = matchLoser;
+			const { votes, winner, loser } = handleVotes(judges, match);
+			match.votes = votes;
+			match.winner = winner;
+			match.loser = loser;
 			match.winType = Math.random() > 0.5 ? WinType.DIRECT : WinType.REPLICA;
-			match.votes = handleVotes(judges, match);
 		}
 		await getRepository(Match).save(match);
 	}
 };
 
-function handleVotes(judges: Participant[], match: Match): Vote[] {
+function handleVotes(judges: Participant[], match: Match): { votes: Vote[], winner: Participant, loser: Participant } {
 	const votes = judges.map(judge => {
 		const vote = new Vote();
 		vote.judge = judge;
-		const winnerPoints = faker.random.number({ min: 60, max: 105 });
-		const loserPoints = faker.random.number({ min: 40, max: 75 });
-		const loser = match.winner.id === match.home.id ? match.away : match.home;
-		vote.homePoints = match.winner.id === match.home.id ? winnerPoints : loserPoints;
-		vote.awayPoints = match.winner.id === match.away.id ? winnerPoints : loserPoints;
-		vote.winner = Math.random() > 0.2 ? match.winner : loser;
-		vote.loser = vote.winner.id === match.winner.id ? loser : match.winner;
+		const winnerPoints = faker.random.number({ min: 70, max: 105 });
+		const loserPoints = faker.random.number({ min: 40, max: 69 });
+		vote.homePoints = Math.random() > 0.5 ? winnerPoints : loserPoints;
+		vote.awayPoints = vote.homePoints === winnerPoints ? loserPoints : winnerPoints;
+		vote.winner = vote.homePoints > vote.awayPoints ? match.home : match.away;
+		vote.loser = vote.homePoints < vote.awayPoints ? match.home : match.away;
 		return vote;
 	})
-	return votes;
+	const totalAwayPoints = votes.reduce((prev, current) => prev + current.awayPoints, 0);
+	const totalHomePoints = votes.reduce((prev, current) => prev + current.homePoints, 0);
+	const winner = totalAwayPoints >= totalHomePoints ? match.away : match.home;
+	const loser = winner.id === match.away.id ? match.home : match.away;
+	return { votes, loser, winner };
 }
