@@ -5,6 +5,7 @@ import { Match } from "../entities/Match";
 import { GraphQLResolveInfo } from "graphql/type/definition";
 import { WinType } from "../types";
 
+// TO DO: put inside class
 function getQBBasedOnWinType(winType: string, competitionId?: number) {
 	const matchQB = getRepository(Match).createQueryBuilder('match')
 	const baseQB =  matchQB.where('"winType" = :winType', { winType })
