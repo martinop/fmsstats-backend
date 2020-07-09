@@ -20,7 +20,7 @@ class PositionsController {
 	
 	static avgByCompetition = async function() {
 		try {
-			const avgQuery = await getRepository(Position)
+			const avgQuery = getRepository(Position)
 				.createQueryBuilder('position')
 				.select("AVG(position.ptb)", "avg")
 			const competitionsAvg = await getRepository(Competition)
