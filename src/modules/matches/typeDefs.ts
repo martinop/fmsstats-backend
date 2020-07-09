@@ -30,8 +30,15 @@ export default `
 		data: [Match]
 	}
 
+	type GeneralStatsResponse {
+		replica: Int!
+		directWins: Int!
+		played: Int!
+	}
+
 	type Query {
-    matches: AllMatchesResponse
+		matches: AllMatchesResponse
+		generalStats(competition: Int): GeneralStatsResponse
   }
 
 `
