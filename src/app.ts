@@ -3,12 +3,13 @@ import { ApolloServer } from "apollo-server-express";
 import { GraphQLModule } from '@graphql-modules/core';
 import matches from "./modules/matches";
 import positions from "./modules/positions";
+import judges from "./modules/judges";
 
 export async function startServer() {
   const app = express();
   const { schema, context } = new GraphQLModule({
     name: 'app',
-    imports: [matches, positions],
+    imports: [matches, positions, judges],
   });
   const server = new ApolloServer({
     schema,
