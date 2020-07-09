@@ -51,4 +51,30 @@ p10.name = 'Joqerr'
 p10.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/joqqer.jpg';
 p10.type = ParticipantType.FREESTYLER;
 
-export default [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10]
+
+let j1 = new Participant();
+j1.name = 'Satul'
+j1.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/kapo.jpeg';
+j1.type = ParticipantType.JUDGE;
+
+let j2 = new Participant();
+j2.name = 'Cristofebril'
+j2.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/estrimo.jpg';
+j2.type = ParticipantType.JUDGE;
+
+let j3 = new Participant();
+j3.name = 'Formo'
+j3.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/kapo.jpeg';
+j3.type = ParticipantType.JUDGE;
+
+let j4 = new Participant();
+j4.name = 'Basek'
+j4.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/estrimo.jpg';
+j4.type = ParticipantType.JUDGE;
+
+let j5 = new Participant();
+j5.name = 'Blazt'
+j5.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/estrimo.jpg';
+j5.type = ParticipantType.JUDGE;
+
+export default [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, j1, j2, j3, j4, j5]

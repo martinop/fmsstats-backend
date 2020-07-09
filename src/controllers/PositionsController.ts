@@ -29,6 +29,7 @@ class PositionsController {
 			const competitionsAvg = await getRepository(Competition)
 				.createQueryBuilder('competition')
 				.addSelect(`(${avgQuery})`, 'avg')
+				.orderBy('avg', 'DESC')
 				.execute();
 
 			const competitions = competitionsAvg.map((e: any) => ({
