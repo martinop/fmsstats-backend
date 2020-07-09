@@ -29,8 +29,19 @@ export default `
 		data: [Position]
 	}
 
+	type CompetitionAvg {
+		id: Int!
+		name: String!
+		avg: Float!
+	}
+
+	type AvgByCompetitionResponse {
+		competitions: [CompetitionAvg]
+	}
+
 	type Query {
-    positions(competition: Int): PositionsResponse
+		positions(competition: Int): PositionsResponse
+		avgByCompetition: AvgByCompetitionResponse
   }
 
 `
