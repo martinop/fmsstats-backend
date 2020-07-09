@@ -23,9 +23,12 @@ class PositionsController {
 			const avgQuery = getRepository(Position)
 				.createQueryBuilder('position')
 				.select("AVG(position.ptb)", "avg")
+				.where('position.competition = competition.id') // Possible because we are using it as subquery
+				.getQuery();
+
 			const competitionsAvg = await getRepository(Competition)
 				.createQueryBuilder('competition')
-				.addSelect(`(${avgQuery.where('position.competition = competition.id').getQuery()})`, 'avg')
+				.addSelect(`(${avgQuery})`, 'avg')
 				.execute();
 
 			const competitions = competitionsAvg.map((e: any) => ({
