@@ -6,7 +6,6 @@ import {
 	ManyToOne,
 } from "typeorm";
 import { ModeWordType } from '../types';
-import { Match } from "./Match";
 
 @Entity()
 export class Word extends BaseEntity {
@@ -14,14 +13,11 @@ export class Word extends BaseEntity {
   id: number;
 
   @Column()
-  value: number;
+  value: string;
   
   @Column({
     type: "enum",
     enum: ModeWordType,
   })
-	mode: ModeWordType;
-	
-	@ManyToOne(type => Match, match => match.votes)
-	match: Match;
+  mode: ModeWordType;
 }

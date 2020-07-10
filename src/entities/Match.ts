@@ -8,6 +8,8 @@ import {
 	OneToMany,
   AfterInsert,
   getConnection,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 
 import { IsNotEmpty } from "class-validator";
@@ -61,7 +63,8 @@ export class Match extends BaseEntity {
 	@OneToMany(type => Vote, vote => vote.match, {cascade: true})
 	votes: Vote[];
 
-	@OneToMany(type => Word, word => word.match, {cascade: true })
+  @ManyToMany(type => Word)
+  @JoinTable()
 	words: Word[];
 
 	@OneToMany(type => Thematic, thematic => thematic.match, {cascade: true })
@@ -81,8 +84,8 @@ export class Match extends BaseEntity {
         .createQueryBuilder()
         .update(JudgeStats)
         .set({
-          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => '(corrects + 1) / CAST((corrects + fails + 1) as FLOAT)' },
-          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'corrects / CAST((corrects + fails + 1) as FLOAT)' }
+          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => 'ROUND((corrects + 1) / CAST((corrects + fails + 1) as NUMERIC), 2)' },
+          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + 1) as NUMERIC), 2)' }
         })
         .where('"judgeId" = :judge', { judge: vote.judge.id })
         .andWhere('"competitionId" = :competition', { competition: this.round.competition.id })
