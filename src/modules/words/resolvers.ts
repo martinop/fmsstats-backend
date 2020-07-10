@@ -2,7 +2,7 @@ import WordsController from '../../controllers/WordsController';
 
 export default {
   Query: {
-    words: WordsController.getByCompetition,
+    words: WordsController.getGlobal,
     wordsByCompetition: WordsController.getByCompetition
   }
 }

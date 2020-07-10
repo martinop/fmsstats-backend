@@ -9,6 +9,6 @@ export enum WinType {
 }
 
 export enum ModeWordType {
-  EASY = 'easy',
-  HARD = 'hard',
+  EASY = 'EASY',
+  HARD = 'HARD',
 }

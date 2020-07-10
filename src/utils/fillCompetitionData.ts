@@ -28,7 +28,6 @@ const thematics = Array.from({ length: 100 }).map(e => {
 	return w;
 })
 
-console.log(words)
 export default async function fillCompetitionData(name: string, participants: Participant[]) {
 	const competition = new Competition();
 	competition.name = name;

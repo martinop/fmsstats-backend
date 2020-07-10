@@ -21,6 +21,11 @@ export default `
     words: [Word]!
   }
 
+  extend type Word {
+    count: Int
+    competition: Int
+  }
+
   type Query {
     words: [Word]!
     wordsByCompetition(competition: Int): [Word]!

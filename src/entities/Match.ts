@@ -63,7 +63,7 @@ export class Match extends BaseEntity {
 	@OneToMany(type => Vote, vote => vote.match, {cascade: true})
 	votes: Vote[];
 
-  @ManyToMany(type => Word, {cascade: true })
+  @ManyToMany(type => Word, word => word.matches, {cascade: true })
   @JoinTable()
 	words: Word[];
 

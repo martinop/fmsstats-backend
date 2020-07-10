@@ -3,9 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
 	BaseEntity,
-	ManyToOne,
+  ManyToMany,
 } from "typeorm";
 import { ModeWordType } from '../types';
+import { Match } from "./Match";
 
 @Entity()
 export class Word extends BaseEntity {
@@ -20,4 +21,7 @@ export class Word extends BaseEntity {
     enum: ModeWordType,
   })
   mode: ModeWordType;
+
+  @ManyToMany(type => Match, match => match.words)
+  matches: Match
 }
