@@ -27,7 +27,6 @@ export default `
   }
 
   type Query {
-    words: [Word]!
-    wordsByCompetition(competition: Int): [Word]!
+    words(competition: Int): [Word]!
   }
 `
