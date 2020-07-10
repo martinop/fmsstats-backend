@@ -13,7 +13,7 @@ export class Thematic extends BaseEntity {
   id: number;
 
   @Column()
-	value: number;
+	value: string;
 	
 	@ManyToOne(type => Match, match => match.votes)
 	match: Match;

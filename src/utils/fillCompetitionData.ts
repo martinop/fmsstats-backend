@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { getRepository } from "typeorm";
 import moment from 'moment';
-import { ParticipantType, WinType } from "../types";
+import { ParticipantType, WinType, ModeWordType } from "../types";
 import { Competition } from "../entities/Competition";
 import { Participant } from "../entities/Participant";
 import { Position } from "../entities/Position";
@@ -10,9 +10,25 @@ import { Round } from "../entities/Round";
 import { Match } from "../entities/Match";
 import { Vote } from "../entities/Vote";
 import { JudgeStats } from '../entities/JudgeStats';
+import { shuffle } from 'lodash';
+import { Word } from '../entities/Word';
+import { Thematic } from '../entities/Thematic';
 
 const startDate = moment().subtract(2, 'weeks');
+const words = Array.from({ length: 200 }).map(e => {
+	const w = new Word();
+	w.mode = Math.random() > 0.5 ? ModeWordType.EASY : ModeWordType.HARD;
+	w.value = faker.lorem.word();
+	return w;
+})
 
+const thematics = Array.from({ length: 100 }).map(e => {
+	const w = new Thematic();
+	w.value = faker.lorem.word();
+	return w;
+})
+
+console.log(words)
 export default async function fillCompetitionData(name: string, participants: Participant[]) {
 	const competition = new Competition();
 	competition.name = name;
@@ -54,7 +70,6 @@ export default async function fillCompetitionData(name: string, participants: Pa
 
 		await getRepository(Round).save(round);
 		await saveMatches(matches, round, finished, participants);
-
 		roundAcc++;
 	}
 
@@ -70,9 +85,13 @@ async function saveMatches(matches: number[][], round: Round, finished: boolean,
 		if(finished) {
 			const judges = participants.filter(e => e.type === ParticipantType.JUDGE);
 			const { votes, winner, loser } = handleVotes(judges, match);
+			const _words = shuffle(words);
+			const _thematics = shuffle(thematics);
 			match.votes = votes;
 			match.winner = winner;
 			match.loser = loser;
+			match.words = _words.slice(0, 50);
+			match.thematics = _thematics.slice(0, 2);
 			match.winType = Math.random() > 0.5 ? WinType.DIRECT : WinType.REPLICA;
 		}
 		await getRepository(Match).save(match);

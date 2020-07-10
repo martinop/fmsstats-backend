@@ -63,11 +63,12 @@ export class Match extends BaseEntity {
 	@OneToMany(type => Vote, vote => vote.match, {cascade: true})
 	votes: Vote[];
 
-  @ManyToMany(type => Word)
+  @ManyToMany(type => Word, {cascade: true })
   @JoinTable()
 	words: Word[];
 
-	@OneToMany(type => Thematic, thematic => thematic.match, {cascade: true })
+  @ManyToMany(type => Thematic, thematic => thematic.match, {cascade: true })
+  @JoinTable()
   thematics: Thematic[];
   
   getPTBAverage() {
