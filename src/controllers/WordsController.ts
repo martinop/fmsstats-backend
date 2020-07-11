@@ -17,7 +17,7 @@ class WordsController {
           .leftJoin('word.matches', 'matches')
           .groupBy('word.id')
           .orderBy('count', 'DESC')
-          .limit(15)
+          .limit(10)
           .getRawMany();
         return words;
       }
