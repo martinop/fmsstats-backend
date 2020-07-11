@@ -41,7 +41,8 @@ class MatchesController {
 		}
 	};
 	
-	static byDifference = (order: 'DESC' | 'ASC', competition?: number) => async (source: any, args: { competition: number }, parent: any, context: any) => {
+	static byDifference = (order: 'DESC' | 'ASC') => async (parent: { id: number }) => {
+		const competition = parent.id;
 		try {
 			const match = competition ? 
 				await getRepository(Match)
@@ -68,8 +69,8 @@ class MatchesController {
 		}
 	}
 
-	static byMostPoints = async (source: any, args: { competition: number }) => {
-		const { competition } = args;
+	static byMostPoints = async (parent: { id: number }) => {
+		const competition = parent.id;
 		try {
 			const match = competition ?
 				await getRepository(Match)
