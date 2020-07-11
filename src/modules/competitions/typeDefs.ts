@@ -7,8 +7,8 @@ export default `
   type CompetitionStats {
     id: ID!
     played: Int
-    replica: Int
-    directWinds: Int
+    replicas: Int
+    directWins: Int
     mostPointsMatch: Match
     mostEvenMatch: Match
     mostUnevenMatch: Match
@@ -18,7 +18,7 @@ export default `
 
   type GlobalStats {
     played: Int
-    replica: Int
+    replicas: Int
     directWins: Int
     mostPointsMatch: Match
     mostEvenMatch: Match

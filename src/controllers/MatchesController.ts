@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { getRepository, IsNull, Not } from "typeorm";
 import isEmpty from 'lodash/isEmpty';
 import graphqlFields from 'graphql-fields';
 import { Match } from "../entities/Match";
@@ -175,9 +175,37 @@ class MatchesController {
 	};
 
 	static getTotalPlayed = async (parent: { id: number }) => {
+		const { id } = parent;
 		try {
-
+			const totalPlayed = parent.id ?
+				await getRepository(Match)
+					.createQueryBuilder('match')
+					.innerJoin('match.round', 'round')
+					.where('round."competitionId" = :id', { id })
+					.andWhere('match."winType" IS NOT NULL')
+					.getCount() :
+				await getRepository(Match)
+					.count({ where: { winType: Not(IsNull()) } })
+			return totalPlayed;
 		} catch (e) {
+			throw Error(e);
+		}
+	};
+
+	static getTotalByType = (type: WinType) => async (parent: { id: number }) => {
+		const { id } = parent;
+		try {
+			const totalReplicas = parent.id ?
+				await getRepository(Match)
+					.createQueryBuilder('match')
+					.innerJoin('match.round', 'round')
+					.where('round."competitionId" = :id', { id })
+					.andWhere('match."winType" = :type', { type })
+					.getCount() :
+				await getRepository(Match)
+					.count({ where: { winType: type } });
+			return totalReplicas;
+		} catch(e) {
 			throw Error(e);
 		}
 	};
