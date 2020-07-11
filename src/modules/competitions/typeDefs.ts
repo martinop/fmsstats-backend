@@ -4,6 +4,11 @@ export default `
     difference: Int
   }
 
+  type JudgeVotes {
+    judge: Participant
+    average: Float
+  }
+
   type CompetitionStats {
     id: ID!
     played: Int
@@ -14,6 +19,8 @@ export default `
     mostUnevenMatch: Match
     mostUsedWords: [Word]
     mostEffectiveJudges: [Judge]
+    mostVotingJudge: JudgeVotes
+    lessVotingJudge: JudgeVotes
   }
 
   type GlobalStats {
@@ -25,6 +32,8 @@ export default `
     mostUnevenMatch: Match
     mostUsedWords: [Word]
     mostEffectiveJudges: [Judge]
+    mostVotingJudge: JudgeVotes
+    lessVotingJudge: JudgeVotes
   }
 
   type Competition {
