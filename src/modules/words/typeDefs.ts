@@ -1,8 +1,8 @@
 export default `
 
-  type Competition {
-    name: String!
-    id: Int!
+  enum ModeWordType {
+    EASY
+    HARD
   }
 
   type Word {
@@ -11,13 +11,7 @@ export default `
     mode: ModeWordType!
   }
 
-  enum ModeWordType {
-    EASY
-    HARD
-  }
-
   type CompetitionWordsResponse {
-    competition: Competition
     words: [Word]!
   }
 

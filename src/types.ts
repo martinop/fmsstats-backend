@@ -1,11 +1,11 @@
 export enum ParticipantType {
-  FREESTYLER = "freestyler",
-  JUDGE = "judge",
+  FREESTYLER = "FREESTYLER",
+  JUDGE = "JUDGE",
 }
 
 export enum WinType {
-  DIRECT = 'direct',
-  REPLICA = 'replica',
+  DIRECT = 'DIRECT',
+  REPLICA = 'REPLICA',
 }
 
 export enum ModeWordType {

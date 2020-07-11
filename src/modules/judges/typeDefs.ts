@@ -1,12 +1,5 @@
 export default `
 
-	type Participant {
-		id: Int!
-		name: String!
-		type: String
-		imageUrl: String
-	}
-
 	type Competition {
 		name: String!
 		id: Int!
@@ -17,7 +10,6 @@ export default `
 		effectiveness: Float!
 		fails: Int!
 		corrects: Int!
-		judge: Participant!
 		competition: Competition!
 	}
 

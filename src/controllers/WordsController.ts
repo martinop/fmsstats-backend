@@ -1,7 +1,6 @@
 import { getManager, EntitySchema, getRepository } from "typeorm";
 import WordCompetition from "../entities/WordCompetition";
 import { Word } from "../entities/Word";
-import { Match } from "../entities/Match";
 
 class WordsController {
   static get = async (source: any, args: { competition: number }) => {

@@ -4,52 +4,151 @@ import graphqlFields from 'graphql-fields';
 import { Match } from "../entities/Match";
 import { GraphQLResolveInfo } from "graphql/type/definition";
 import { WinType } from "../types";
+import { Participant } from "../entities/Participant";
+import { Word } from "../entities/Word";
 
 // TO DO: put inside class
-function getQBBasedOnWinType(winType: string, competitionId?: number) {
-	const matchQB = getRepository(Match).createQueryBuilder('match')
-	const baseQB =  matchQB.where('"winType" = :winType', { winType })
-
-	const qb = competitionId ? 
-		baseQB
-			.innerJoin("match.round", "round")
-			.andWhere("round.competition = :competitionId", { competitionId })
-		: baseQB
-
-	return qb.getCount();
-}
 
 class MatchesController {
 	static get = async function(source: any, args: {[argName: string]: any}, context: any, info: GraphQLResolveInfo) {
 		const { data: fields } = graphqlFields(info);
-
+		
 		const relations: string[] = Object.keys(fields).reduce((prev: string[], current: string) => {
 			if(!isEmpty(fields[current])) {
 				return [...prev, current];
 			} return prev;
 		}, []);
-
-		console.log(relations);
+		
 		const matchesRepository = getRepository(Match);
 		const data = await matchesRepository
-				.createQueryBuilder('match')
-				.getMany();
+		.createQueryBuilder('match')
+		.getMany();
 		return { data }
 	};
-
 	
-
-	static getGeneralStats = async function(source: any, args: {[competition: string]: number}) {
+	static getGeneralStats = async (source: any, args: {[competition: string]: number}) => {
 		const { competition } = args;
 		try {		
-			const directWinsCount = await getQBBasedOnWinType(WinType.DIRECT, competition)
-			const replicaCount = await getQBBasedOnWinType(WinType.REPLICA, competition)
+			const directWinsCount = await MatchesController.getQBBasedOnWinType(WinType.DIRECT, competition)
+			const replicaCount = await MatchesController.getQBBasedOnWinType(WinType.REPLICA, competition)
 			const played = replicaCount + directWinsCount;
-
+			
 			return { played, directWins: directWinsCount, replica: replicaCount }
 		} catch(e) {
 			throw new Error(e);
 		}
 	};
+	
+	static byDifference = (order: 'DESC' | 'ASC', competition?: number) => async (source: any, args: { competition: number }, parent: any, context: any) => {
+		try {
+			const match = competition ? 
+				await getRepository(Match)
+					.createQueryBuilder('match')
+					.select('match.*')
+					.innerJoin('match.votes', 'votes')
+					.innerJoin('match.round', 'round')
+					.where('round."competitionId" = :competition', { competition })
+					.groupBy('match.id')
+					.orderBy('ABS(SUM("homePoints") - SUM("awayPoints"))', order)
+					.limit(1)
+					.getRawOne() :
+				await getRepository(Match)
+					.createQueryBuilder('match')
+					.select('match.*')
+					.innerJoin('match.votes', 'votes')
+					.groupBy('match.id')
+					.orderBy('ABS(SUM("homePoints") - SUM("awayPoints"))', order)
+					.limit(1)
+					.getRawOne();
+			return match;
+		} catch(e) {
+			throw new Error(e);
+		}
+	}
+
+	static bothByDifference = (parent: any, args: { competition: number }) => ({
+		mostEven: MatchesController.byDifference('ASC', args.competition),
+		mostUneven: MatchesController.byDifference('DESC', args.competition),
+	})
+
+	static byMostPoints = async (source: any, args: { competition: number }) => {
+		const { competition } = args;
+		try {
+			const match = competition ?
+				await getRepository(Match)
+				.createQueryBuilder('match')
+				.select('match.*') :
+			await getRepository(Match)
+				.createQueryBuilder('match')
+				.select('match.*');
+			return match;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
+
+	static getHomeParticipant = async (parent: Match) => {
+    try {
+      const homeParticipant = await getRepository(Match)
+				.findOne({ relations: ['home'], where: { id: parent.id } });
+      return homeParticipant?.home;
+    } catch(e) {
+      throw new Error(e);
+    }
+  }
+
+  static getAwayParticipant = async (parent: Match) => {
+		try {
+      const awayParticipant = await getRepository(Match)
+				.findOne({ relations: ['away'], where: { id: parent.id } });
+      return awayParticipant?.away;
+    } catch(e) {
+      throw new Error(e);
+    }
+  }
+
+  static getMatchWinner = async (parent: Match) => {
+		try {
+      const winner = await getRepository(Match)
+				.findOne({ relations: ['winner'], where: { id: parent.id } });
+      return winner?.winner;
+    } catch(e) {
+      throw new Error(e);
+    }
+  }
+
+  static getMatchLoser = async (parent: Match) => {
+		try {
+      const loser = await getRepository(Match)
+				.findOne({ relations: ['loser'], where: { id: parent.id } });
+      return loser?.loser;
+    } catch(e) {
+      throw new Error(e);
+    }
+	}
+	
+	static getWords = async (parent: Match) => {
+		try {
+			const words = await getRepository(Word)
+				.find({ where: { match: parent.id } });
+			return words;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
+		 
+	private static getQBBasedOnWinType = (winType: string, competitionId?: number) => {
+		const matchQB = getRepository(Match).createQueryBuilder('match')
+		const baseQB =  matchQB.where('"winType" = :winType', { winType })
+
+		const qb = competitionId ? 
+			baseQB
+				.innerJoin("match.round", "round")
+				.andWhere("round.competition = :competitionId", { competitionId })
+			: baseQB
+	
+		return qb.getCount();
+	}
 }
+
 export default MatchesController;

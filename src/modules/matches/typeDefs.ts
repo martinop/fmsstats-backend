@@ -1,44 +1,19 @@
 export default `
-
-	type Participant {
-		id: Int!
-		name: String!
-		type: String
-		imageUrl: String
-	}
-
-	type Vote {
-		id: Int
-		homePoints: Int
-		awayPoints: Int
-		judge: Participant
-		winner: Participant
-		loser: Participant
-	}
-
-	type Match {
-		id: Int!
-		winType: String
-		active: Boolean
-		home: Participant
-		away: Participant
-		winner: Participant
-		votes: [Vote]
-	}
-
-	type AllMatchesResponse {
-		data: [Match]
-	}
-
-	type GeneralStatsResponse {
-		replica: Int!
-		directWins: Int!
-		played: Int!
-	}
-
-	type Query {
-		matches: AllMatchesResponse
-		generalStats(competition: Int): GeneralStatsResponse
+  enum WinType {
+    DIRECT
+    REPLICA
   }
 
+  type Match {
+    id: ID!
+    winType: WinType
+    active: Boolean
+    home: Participant
+    away: Participant
+    winner: Participant
+    loser: Participant
+    words: [Word]
+  }
 `
+
+// TODO: PARTICIPANTS AND WORDS AND THEMATIC AND VOTES

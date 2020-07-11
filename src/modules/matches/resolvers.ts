@@ -1,8 +1,11 @@
-import MatchesController from '../../controllers/MatchesController';
+import MatchesController from "../../controllers/MatchesController";
 
-export default { 
-	Query: {
-		matches: MatchesController.get,
-		generalStats: MatchesController.getGeneralStats,
-	},
+export default {
+  Match: {
+    home: MatchesController.getHomeParticipant,
+    away: MatchesController.getAwayParticipant,
+    winner: MatchesController.getMatchWinner,
+    loser: MatchesController.getMatchLoser,
+    words: MatchesController.getWords
+  }
 }
