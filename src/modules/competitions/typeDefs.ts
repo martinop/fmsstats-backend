@@ -1,7 +1,24 @@
 export default `
 
+  extend type Match {
+    difference: Int
+  }
+
   type CompetitionStats {
-    stats: String
+    id: ID!
+    mostPointsMatch: Match
+    mostEvenMatch: Match
+    mostUnevenMatch: Match
+    mostUsedWords: [Word]
+    mostEffectiveJudges: [Judge]
+  }
+
+  type GlobalStats {
+    mostPointsMatch: Match
+    mostEvenMatch: Match
+    mostUnevenMatch: Match
+    mostUsedWords: [Word]
+    mostEffectiveJudges: [Judge]
   }
 
   type Competition {
@@ -14,5 +31,6 @@ export default `
   type Query {
     competition(id: ID!): Competition
     competitions: [Competition]
+    globalStats: GlobalStats
   }
 `

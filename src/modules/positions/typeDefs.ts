@@ -1,10 +1,5 @@
 export default `
 
-	type Competition {
-		id: Int
-		name: String
-	}
-
 	type Position {
 		id: Int!
 		points: Int
@@ -14,10 +9,6 @@ export default `
 		losesReplica: Int
 		ptb: Int
 		competition: Competition
-	}
-
-	type PositionsResponse {
-		data: [Position]
 	}
 
 	type CompetitionAvg {
@@ -31,7 +22,7 @@ export default `
 	}
 
 	type Query {
-		positions(competition: Int): PositionsResponse
+		positions(competition: Int): [Position]
 		avgByCompetition: AvgByCompetitionResponse
   }
 

@@ -6,6 +6,8 @@ export default {
     away: MatchesController.getAwayParticipant,
     winner: MatchesController.getMatchWinner,
     loser: MatchesController.getMatchLoser,
-    words: MatchesController.getWords
+    words: MatchesController.getWords,
+    thematics: MatchesController.getThematics,
+    votes: MatchesController.getVotes
   }
 }

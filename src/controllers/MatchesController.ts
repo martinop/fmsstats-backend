@@ -6,6 +6,8 @@ import { GraphQLResolveInfo } from "graphql/type/definition";
 import { WinType } from "../types";
 import { Participant } from "../entities/Participant";
 import { Word } from "../entities/Word";
+import { Thematic } from "../entities/Thematic";
+import { Vote } from "../entities/Vote";
 
 // TO DO: put inside class
 
@@ -66,21 +68,28 @@ class MatchesController {
 		}
 	}
 
-	static bothByDifference = (parent: any, args: { competition: number }) => ({
-		mostEven: MatchesController.byDifference('ASC', args.competition),
-		mostUneven: MatchesController.byDifference('DESC', args.competition),
-	})
-
 	static byMostPoints = async (source: any, args: { competition: number }) => {
 		const { competition } = args;
 		try {
 			const match = competition ?
 				await getRepository(Match)
-				.createQueryBuilder('match')
-				.select('match.*') :
-			await getRepository(Match)
-				.createQueryBuilder('match')
-				.select('match.*');
+					.createQueryBuilder('match')
+					.select('match.*')
+					.innerJoin('match.votes', 'votes')
+					.innerJoin('match.round', 'round')
+					.where('round."competitionId" = :competition', { competition })
+					.groupBy('match.id')
+					.orderBy('SUM("homePoints") - SUM("awayPoints")', 'DESC')
+					.limit(1)
+					.getRawOne() :
+				await getRepository(Match)
+					.createQueryBuilder('match')
+					.select('match.*')
+					.innerJoin('match.votes', 'votes')
+					.groupBy('match.id')
+					.orderBy('SUM("homePoints") - SUM("awayPoints")', 'DESC')
+					.limit(1)
+					.getRawOne();
 			return match;
 		} catch(e) {
 			throw new Error(e);
@@ -126,17 +135,45 @@ class MatchesController {
       throw new Error(e);
     }
 	}
+
+	static getThematics = async (parent: Match) => {
+		try {
+			const thematics = await getRepository(Thematic)
+				.createQueryBuilder('thematic')
+				.select('thematic.*')
+				.leftJoin('thematic.matches', 'matches')
+				.where('matches.id = :id', { id: +parent.id })
+				.getRawMany();
+			return thematics;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
 	
 	static getWords = async (parent: Match) => {
 		try {
 			const words = await getRepository(Word)
-				.find({ where: { match: parent.id } });
+				.createQueryBuilder('word')
+				.select('word.*')
+				.leftJoin('word.matches', 'matches')
+				.where('matches.id = :id', { id: parent.id })
+				.getRawMany();
 			return words;
 		} catch(e) {
 			throw new Error(e);
 		}
 	};
-		 
+
+		static getVotes = async (parent: Match) => {
+			try {
+				const votes = await getRepository(Vote)
+					.find({ where: { match: parent.id } });
+				return votes;
+			} catch(e) {
+				throw new Error(e);
+			}
+		};
+
 	private static getQBBasedOnWinType = (winType: string, competitionId?: number) => {
 		const matchQB = getRepository(Match).createQueryBuilder('match')
 		const baseQB =  matchQB.where('"winType" = :winType', { winType })

@@ -3,7 +3,7 @@ import { Position } from "../entities/Position";
 import { Competition } from "../entities/Competition";
 
 class PositionsController {
-  static get = async function(source: any, args: {[competition: string]: number}) {
+  static get = async function(parent: any, args: {[competition: string]: number}) {
 		const { competition } = args;
 		try {
 			const data = await getRepository(Position)
@@ -12,7 +12,7 @@ class PositionsController {
 					order: { points: 'DESC', ptb: 'DESC' },
 					...competition && { where: { competition }}
 				});
-			return { data }
+			return data;
 		} catch(e) {
 			throw new Error(e);
 		}

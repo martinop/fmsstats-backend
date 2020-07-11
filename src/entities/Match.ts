@@ -67,7 +67,7 @@ export class Match extends BaseEntity {
   @JoinTable()
 	words: Word[];
 
-  @ManyToMany(type => Thematic, thematic => thematic.match, {cascade: true })
+  @ManyToMany(type => Thematic, thematic => thematic.matches, {cascade: true })
   @JoinTable()
   thematics: Thematic[];
   

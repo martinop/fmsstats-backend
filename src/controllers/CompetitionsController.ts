@@ -34,6 +34,10 @@ class CompetitionsController {
       throw new Error(e);
     }
   };
+
+  static getStats = async (parent: Competition) => {
+    return { id: parent.id };
+  }
 };
 
 export default CompetitionsController;

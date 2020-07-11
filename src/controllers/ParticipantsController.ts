@@ -1,4 +1,3 @@
-import { Match } from "../entities/Match";
 import { getRepository } from "typeorm";
 import { Participant } from "../entities/Participant";
 

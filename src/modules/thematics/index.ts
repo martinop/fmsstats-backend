@@ -2,12 +2,9 @@
 import { GraphQLModule } from '@graphql-modules/core';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
-import rounds from '../rounds';
-import judges from '../judges';
 
 export default new GraphQLModule({
-  name: 'competition',
+  name: 'thematics',
 	typeDefs,
-  resolvers,
-  imports: [rounds, judges]
+  resolvers
 })

@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
 	BaseEntity,
-	ManyToOne,
+  ManyToMany,
 } from "typeorm";
 import { Match } from "./Match";
 
@@ -15,6 +15,6 @@ export class Thematic extends BaseEntity {
   @Column()
 	value: string;
 	
-	@ManyToOne(type => Match, match => match.votes)
-	match: Match;
+	@ManyToMany(type => Match, match => match.thematics)
+	matches: Match;
 }

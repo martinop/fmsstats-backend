@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   ManyToOne,
-  AfterUpdate,
 } from "typeorm";
 import { Participant } from "./Participant";
 import { Competition } from "./Competition";

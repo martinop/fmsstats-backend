@@ -13,7 +13,7 @@ export default `
     winner: Participant
     loser: Participant
     words: [Word]
+    thematics: [Thematic]
+    votes: [Vote]
   }
 `
-
-// TODO: PARTICIPANTS AND WORDS AND THEMATIC AND VOTES
