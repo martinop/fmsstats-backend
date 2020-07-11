@@ -80,7 +80,7 @@ class MatchesController {
 					.innerJoin('match.round', 'round')
 					.where('round."competitionId" = :competition', { competition })
 					.groupBy('match.id')
-					.orderBy('SUM("homePoints") - SUM("awayPoints")', 'DESC')
+					.orderBy('SUM("homePoints") + SUM("awayPoints")', 'DESC')
 					.limit(1)
 					.getRawOne() :
 				await getRepository(Match)
@@ -88,7 +88,7 @@ class MatchesController {
 					.select('match.*')
 					.innerJoin('match.votes', 'votes')
 					.groupBy('match.id')
-					.orderBy('SUM("homePoints") - SUM("awayPoints")', 'DESC')
+					.orderBy('SUM("homePoints") + SUM("awayPoints")', 'DESC')
 					.limit(1)
 					.getRawOne();
 			return match;
