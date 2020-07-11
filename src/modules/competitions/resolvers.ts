@@ -22,7 +22,9 @@ export default {
     mostEffectiveJudges: JudgesController.byEffectiveness,
     played: MatchesController.getTotalPlayed,
     replicas: MatchesController.getTotalByType(WinType.REPLICA),
-    directWins: MatchesController.getTotalByType(WinType.DIRECT)
+    directWins: MatchesController.getTotalByType(WinType.DIRECT),
+    mostVotingJudge: JudgesController.getMostVotingJudge('DESC'),
+    lessVotingJudge: JudgesController.getMostVotingJudge('ASC')
   },
   GlobalStats: {
     mostPointsMatch: MatchesController.byMostPoints,
@@ -32,6 +34,8 @@ export default {
     mostEffectiveJudges: JudgesController.byEffectiveness,
     played: MatchesController.getTotalPlayed,
     replicas: MatchesController.getTotalByType(WinType.REPLICA),
-    directWins: MatchesController.getTotalByType(WinType.DIRECT)
+    directWins: MatchesController.getTotalByType(WinType.DIRECT),
+    mostVotingJudge: JudgesController.getMostVotingJudge('DESC'),
+    lessVotingJudge: JudgesController.getMostVotingJudge('ASC')
   }
 }
