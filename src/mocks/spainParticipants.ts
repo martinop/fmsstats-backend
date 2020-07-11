@@ -7,8 +7,8 @@ p1.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/bnet.j
 p1.type = ParticipantType.FREESTYLER;
 
 let p2 = new Participant();
-p2.name = 'Chuty'
-p2.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/441044_900422.jpg';
+p2.name = 'Tirpa'
+p2.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/tirpa.jpg';
 p2.type = ParticipantType.FREESTYLER;
 
 let p3 = new Participant();
@@ -47,8 +47,8 @@ p9.imageUrl = 'https://vignette.wikia.nocookie.net/rap/images/d/da/Zasko_Regiona
 p9.type = ParticipantType.FREESTYLER;
 
 let p10 = new Participant();
-p10.name = 'Skone';
-p10.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/skone.jpg';
+p10.name = 'Khan';
+p10.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/khan.jpg';
 p10.type = ParticipantType.FREESTYLER;
 
 let j1 = new Participant();
@@ -63,17 +63,17 @@ j2.type = ParticipantType.JUDGE;
 
 let j3 = new Participant();
 j3.name = 'Noult'
-j3.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/kapo.jpeg';
+j3.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/Noult-banner.jpg';
 j3.type = ParticipantType.JUDGE;
 
 let j4 = new Participant();
 j4.name = 'Babi'
-j4.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/estrimo.jpg';
+j4.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/babi-blackbull-4.jpg';
 j4.type = ParticipantType.JUDGE;
 
 let j5 = new Participant();
 j5.name = 'Soen'
-j5.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/estrimo.jpg';
+j5.imageUrl = 'https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/SOEN.jpg';
 j5.type = ParticipantType.JUDGE;
 
 

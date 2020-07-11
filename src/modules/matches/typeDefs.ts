@@ -18,8 +18,8 @@ export default `
   }
 
   extend type Match {
-    homePoints: Int
-    awayPoints: Int
+    homePoints: Float
+    awayPoints: Float
   }
 
 `

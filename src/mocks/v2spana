@@ -1,0 +1,51 @@
+	const p2 = new Match();
+	p2.home = zasko
+	p2.away = gazir
+	p2.loser = gazir
+	p2.round = round;
+	p2.winner = zasko;
+	p2.winType = WinType.DIRECT;
+	p2.words = await getAllMatchWords(['flores', 'tortuga', 'linkedin', 'confianza', 'magaluf', 'infinito', 'perdida', 'cancion', 'tumblr', 'fortuna', 'piedra', 'barco'], ['peces', 'chiste', 'gafe', 'ojos', 'moda', 'cristalino', 'globo', 'spoiler', 'jordan', 'enfoque', 'firma', 'medicacion', 'usa', 'gallo', 'aliens', 'nuevo', 'gritos', 'sabor', 'bar', 'margarita', 'brazo', 'maldad', 'sorteo']);
+	p2.thematics = await getAllThematics(['Anonymous', 'Frutas']);
+
+	const v11 = new Vote();
+	v11.judge = estrimo;
+	v11.match = p2;
+	v11.homePoints = 93.5;
+	v11.awayPoints = 92;
+	
+	const v22 = new Vote();
+	v22.judge = noult;
+	v22.winner = zasko;
+	v22.loser = gazir;
+	v22.match = p2;
+	v22.homePoints = 93;
+	v22.awayPoints = 86;
+	
+	const v33 = new Vote();
+	v33.judge = babi;
+	v33.winner = zasko;
+	v33.loser = gazir;
+	v33.match = p2;
+	v33.homePoints = 101;
+	v33.awayPoints = 86;
+
+	const v44 = new Vote();
+	v44.judge = soen;
+	v44.winner = zasko;
+	v44.loser = gazir;
+	v44.match = p2;
+	v44.homePoints = 121;
+	v44.awayPoints = 104.5
+
+	const v55 = new Vote();
+	v55.judge = kapo;
+	v55.winner = gazir;
+	v55.loser = zasko;
+	v55.match = p2;
+	v55.homePoints = 117;
+	v55.awayPoints = 128.5;
+
+	p2.votes = [v11, v22, v33, v44, v55]
+
+	await getRepository(Match).save(p2);

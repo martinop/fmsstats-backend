@@ -18,10 +18,10 @@ export class Vote extends BaseEntity {
   @JoinColumn()
 	judge: Participant;
 	
-	@Column()
+	@Column({ default: 0, type: 'numeric' })
 	homePoints: number;
 
-	@Column()
+	@Column({ default: 0, type: 'numeric' })
 	awayPoints: number;
 	
   @ManyToOne(type => Participant)

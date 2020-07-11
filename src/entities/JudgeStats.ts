@@ -24,7 +24,10 @@ export class JudgeStats extends BaseEntity {
   competition: Competition;
 
 	@Column({ default: 0 })
-	fails: number;
+  fails: number;
+  
+  @Column({ default: 0 })
+	ties: number;
 
 	@Column({ default: 0 })
 	corrects: number;

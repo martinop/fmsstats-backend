@@ -71,22 +71,23 @@ export class Match extends BaseEntity {
   @JoinTable()
   thematics: Thematic[];
   
-  getPTBAverage() {
+  getPTBAverage(participant: Participant) {
     const ptb = this.votes.reduce((prev, current) => {
-      return prev + (current.winner.id === this.home.id ? current.homePoints : current.awayPoints)
+      return prev + Number(participant.id === this.home.id ? current.homePoints : current.awayPoints)
     }, 0);
     return ptb / this.votes.length;
   }
 
   updateJudgeStats() {
     for(const vote of this.votes) {
-      const correct = vote.winner.id === this.winner.id;
+      const correct = vote.winner ? vote.winner.id === this.winner.id : null;
       getConnection()
         .createQueryBuilder()
         .update(JudgeStats)
         .set({
-          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => 'ROUND((corrects + 1) / CAST((corrects + fails + 1) as NUMERIC), 2)' },
-          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + 1) as NUMERIC), 2)' }
+          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => 'ROUND((corrects + 1) / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' },
+          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' },
+          ...correct === null && { ties: () => 'ties + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' }
         })
         .where('"judgeId" = :judge', { judge: vote.judge.id })
         .andWhere('"competitionId" = :competition', { competition: this.round.competition.id })
@@ -98,7 +99,7 @@ export class Match extends BaseEntity {
   async updatePositions() {
     if(this.winner) {
       const directWin = this.winType === WinType.DIRECT;
-      const ptb = this.getPTBAverage();
+      const ptb = this.getPTBAverage(this.winner);
       this.updateJudgeStats();
       getConnection()
         .createQueryBuilder()
@@ -116,7 +117,7 @@ export class Match extends BaseEntity {
     }
     if(this.loser) {
       const directLose = this.winType === WinType.DIRECT;
-      const ptb = this.getPTBAverage();
+      const ptb = this.getPTBAverage(this.loser);
       getConnection()
         .createQueryBuilder()
         .update(Position)

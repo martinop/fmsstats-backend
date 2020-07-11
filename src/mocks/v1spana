@@ -1,0 +1,64 @@
+	const round = new Round();
+	round.title = 'Jornada 1';
+	round.startAt = new Date();
+	round.calculated = true;
+	round.competition = competition;
+	await getRepository(Round).save(round);
+	const sweetPain = participants.find(e => e.name === 'Sweet Pain') as Participant;
+	const blon = participants.find(e => e.name === 'Blon') as Participant;
+	const estrimo = participants.find(e => e.name === 'Estrimo') as Participant;
+	const soen = participants.find(e => e.name === 'Soen') as Participant;
+	const noult = participants.find(e => e.name === 'Noult') as Participant;
+	const kapo = participants.find(e => e.name === 'Kapo') as Participant;
+	const babi = participants.find(e => e.name === 'Babi') as Participant;
+
+	const p1 = new Match();
+	p1.home = sweetPain
+	p1.away = blon
+	p1.loser = blon
+	p1.winner = sweetPain;
+	p1.winType = WinType.DIRECT;
+	p1.words = await getAllMatchWords(['estreno', 'sintomas', 'tinder', 'jardin', 'tarde', 'picasso','ladron', 'facebook', 'materia', 'alas', 'universo', 'matricula'], ['mallorca', 'bikini', 'colada', 'libro', 'inmenso', 'apellido', 'safari', 'paisaje', 'carne', 'hielo', 'nasa', 'redes', 'funda', 'pasta', 'ghetto', 'unanime', 'espejo', 'chispa', 'polemica', 'demonio', 'vuelo', 'estudio', 'sexo', 'charla']);
+	p1.thematics = await getAllThematics(['Memes', 'Kun Aguero']);
+
+	const v1 = new Vote();
+	v1.judge = estrimo;
+	v1.winner = sweetPain;
+	v1.loser = blon;
+	v1.match = p1;
+	v1.homePoints = 97;
+	v1.awayPoints = 89;
+	
+	const v2 = new Vote();
+	v2.judge = noult;
+	v2.winner = blon;
+	v2.loser = sweetPain;
+	v2.match = p1;
+	v2.homePoints = 84;
+	v2.awayPoints = 94.5;
+	
+	const v3 = new Vote();
+	v3.judge = babi;
+	v3.winner = blon;
+	v3.loser = sweetPain;
+	v3.match = p1;
+	v3.homePoints = 99;
+	v3.awayPoints = 105;
+
+	const v4 = new Vote();
+	v4.judge = soen;
+	v4.winner = sweetPain;
+	v4.loser = blon;
+	v4.match = p1;
+	v4.homePoints = 125;
+	v4.awayPoints = 110.5
+
+	const v5 = new Vote();
+	v5.judge = kapo;
+	v5.winner = sweetPain;
+	v5.loser = blon;
+	v5.match = p1;
+	v5.homePoints = 123.5;
+	v5.awayPoints = 102.5
+
+	p1.votes = [v1, v2, v3, v4, v5]
