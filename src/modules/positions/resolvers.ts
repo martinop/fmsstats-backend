@@ -4,5 +4,5 @@ export default {
 	Query: {
 		positions: PositionsController.get,
 		avgByCompetition: PositionsController.avgByCompetition,
-	},
+	}
 }

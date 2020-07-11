@@ -5,5 +5,7 @@ export default `
 		effectiveness: Float!
 		fails: Int!
 		corrects: Int!
+		judge: Participant
 	}
+	
 `

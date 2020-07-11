@@ -18,7 +18,8 @@ export default {
     mostEvenMatch: MatchesController.byDifference('ASC'),
     mostUnevenMatch: MatchesController.byDifference('DESC'),
     mostUsedWords: WordsController.getMostUsed,
-    mostEffectiveJudges: JudgesController.byEffectiveness
+    mostEffectiveJudges: JudgesController.byEffectiveness,
+    played: () => ({})
   },
   GlobalStats: {
     mostPointsMatch: MatchesController.byMostPoints,

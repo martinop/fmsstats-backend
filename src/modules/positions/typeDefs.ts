@@ -9,6 +9,7 @@ export default `
 		losesReplica: Int
 		ptb: Int
 		competition: Competition
+		participant: Participant
 	}
 
 	type CompetitionAvg {

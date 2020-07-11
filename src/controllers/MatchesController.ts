@@ -164,15 +164,23 @@ class MatchesController {
 		}
 	};
 
-		static getVotes = async (parent: Match) => {
-			try {
-				const votes = await getRepository(Vote)
-					.find({ where: { match: parent.id } });
-				return votes;
-			} catch(e) {
-				throw new Error(e);
-			}
-		};
+	static getVotes = async (parent: Match) => {
+		try {
+			const votes = await getRepository(Vote)
+				.find({ where: { match: parent.id } });
+			return votes;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
+
+	static getTotalPlayed = async (parent: { id: number }) => {
+		try {
+
+		} catch (e) {
+			throw Error(e);
+		}
+	};
 
 	private static getQBBasedOnWinType = (winType: string, competitionId?: number) => {
 		const matchQB = getRepository(Match).createQueryBuilder('match')

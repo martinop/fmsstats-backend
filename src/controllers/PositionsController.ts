@@ -12,6 +12,7 @@ class PositionsController {
 					order: { points: 'DESC', ptb: 'DESC' },
 					...competition && { where: { competition }}
 				});
+			console.log(data)
 			return data;
 		} catch(e) {
 			throw new Error(e);
