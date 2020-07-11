@@ -8,6 +8,8 @@ export default {
     loser: MatchesController.getMatchLoser,
     words: MatchesController.getWords,
     thematics: MatchesController.getThematics,
-    votes: MatchesController.getVotes
+    votes: MatchesController.getVotes,
+    homePoints: MatchesController.getHomePoints,
+    awayPoints: MatchesController.getAwayPoints
   }
 }

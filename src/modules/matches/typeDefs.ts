@@ -16,4 +16,10 @@ export default `
     thematics: [Thematic]
     votes: [Vote]
   }
+
+  extend type Match {
+    homePoints: Int
+    awayPoints: Int
+  }
+
 `

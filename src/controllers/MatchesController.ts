@@ -210,6 +210,36 @@ class MatchesController {
 		}
 	};
 
+	static getHomePoints = async (parent: Match) => {
+		try {
+			const homePoints = await getRepository(Match)
+				.createQueryBuilder('match')
+				.select('SUM("homePoints")')
+				.innerJoin('match.votes', 'votes')
+				.where('match.id = :id', { id: parent.id })
+				.groupBy('"matchId"')
+				.getRawOne();
+			return homePoints?.sum;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
+
+	static getAwayPoints = async (parent: Match) => {
+		try {
+			const awayPoints = await getRepository(Match)
+				.createQueryBuilder('match')
+				.select('SUM("awayPoints")')
+				.innerJoin('match.votes', 'votes')
+				.where('match.id = :id', { id: parent.id })
+				.groupBy('"matchId"')
+				.getRawOne();
+			return awayPoints?.sum;
+		} catch(e) {
+			throw new Error(e);
+		}
+	};
+
 	private static getQBBasedOnWinType = (winType: string, competitionId?: number) => {
 		const matchQB = getRepository(Match).createQueryBuilder('match')
 		const baseQB =  matchQB.where('"winType" = :winType', { winType })
