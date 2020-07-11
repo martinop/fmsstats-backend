@@ -24,24 +24,24 @@ class JudgesController {
 			const judge = competition ?
 			 await getRepository(Vote)
 				.createQueryBuilder('vote')
-				.select('judge.*, ROUND((SUM(vote."homePoints") + SUM(vote."awayPoints")) / COUNT(vote.*), 2) as average')
+				.select('judge.*, ROUND((SUM(vote."homePoints") + SUM(vote."awayPoints")) / COUNT(vote.*), 2) as avg')
 				.innerJoin('vote.judge', 'judge')
 				.innerJoin('vote.match', 'match')
 				.innerJoin('match.round', 'round')
 				.where('round."competitionId" = :competition', { competition })
 				.groupBy('judge.id')
-				.orderBy('average', order)
+				.orderBy('avg', order)
 				.limit(1)
 				.getRawOne() :
 			await getRepository(Vote)
 				.createQueryBuilder('vote')
-				.select('judge.*, ROUND((SUM(vote."homePoints") + SUM(vote."awayPoints")) / COUNT(vote.*), 2) as average')
+				.select('judge.*, ROUND((SUM(vote."homePoints") + SUM(vote."awayPoints")) / COUNT(vote.*), 2) as avg')
 				.innerJoin('vote.judge', 'judge')
 				.groupBy('judge.id')
-				.orderBy('average', order)
+				.orderBy('avg', order)
 				.limit(1)
 				.getRawOne();
-			return { judge, average: judge?.average };
+			return { judge, avg: judge?.avg };
 		} catch(e) {
 			throw new Error(e);
 		}

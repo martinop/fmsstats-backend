@@ -6,7 +6,7 @@ export default `
 
   type JudgeVotes {
     judge: Participant
-    average: Float
+    avg: Float
   }
 
   type CompetitionStats {
