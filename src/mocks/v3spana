@@ -1,0 +1,51 @@
+	const p3 = new Match();
+	p3.home = ego
+	p3.away = tirpa
+	p3.loser = ego
+	p3.round = round;
+	p3.winner = tirpa;
+	p3.winType = WinType.REPLICA;
+	p3.words = await getAllMatchWords(['calma', 'twitter', 'duda', 'vejez', 'almas', 'parecido', 'amantes', 'puentes', 'tiktok', 'ensaimada', 'sabio', 'caramelos'], ['oportunidad', 'voz', 'trastorno', 'euro', 'carcel', 'like', 'fiesta', 'bloqueo', 'sitio', 'veneno', 'top', 'mama', 'medios', 'tarde', 'velocidad', 'ley', 'asistencia', 'igual', 'crpnica', 'registro', 'leon', 'rival', 'despido', 'cara']);
+	p3.thematics = await getAllThematics(['Isla', 'Super Poderes']);
+
+	const v111 = new Vote();
+	v111.judge = estrimo;
+	v111.match = p3;
+	v111.homePoints = 76.5;
+	v111.awayPoints = 77.5;
+	v111.winner = tirpa;
+	v111.loser = ego;
+
+	const v222 = new Vote();
+	v222.judge = noult;
+	v222.match = p3;
+	v222.homePoints = 77;
+	v222.awayPoints = 78;
+	
+	const v333 = new Vote();
+	v333.judge = babi;
+	v333.winner = tirpa;
+	v333.loser = ego;
+	v333.match = p3;
+	v333.homePoints = 75;
+	v333.awayPoints = 87.5;
+
+	const v444 = new Vote();
+	v444.judge = soen;
+	v444.winner = tirpa;
+	v444.loser = ego;
+	v444.match = p3;
+	v444.homePoints = 114;
+	v444.awayPoints = 101;
+
+	const v555 = new Vote();
+	v555.judge = kapo;
+	v555.winner = tirpa;
+	v555.loser = ego;
+	v555.match = p3;
+	v555.homePoints = 103;
+	v555.awayPoints = 107;
+
+	p3.votes = [v111, v222, v333, v444, v555]
+
+	await getRepository(Match).save(p3);

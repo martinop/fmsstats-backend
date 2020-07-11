@@ -66,6 +66,12 @@ export default async function fillCompetitionData(name: string, image: string, p
 	const blon = participants.find(e => e.name === 'Blon') as Participant;
 	const zasko = participants.find(e => e.name === 'Zasko Master') as Participant;
 	const gazir = participants.find(e => e.name === 'Gazir') as Participant;
+	const ego = participants.find(e => e.name === 'Mr Ego') as Participant;
+	const tirpa = participants.find(e => e.name === 'Tirpa') as Participant;
+	const khan = participants.find(e => e.name === 'Khan') as Participant;
+	const mnak = participants.find(e => e.name === 'Mnak') as Participant;
+	const bnet = participants.find(e => e.name === 'Bnet') as Participant;
+	const errece = participants.find(e => e.name === 'Errece') as Participant;
 	const estrimo = participants.find(e => e.name === 'Estrimo') as Participant;
 	const soen = participants.find(e => e.name === 'Soen') as Participant;
 	const noult = participants.find(e => e.name === 'Noult') as Participant;
@@ -179,6 +185,168 @@ export default async function fillCompetitionData(name: string, image: string, p
 	p2.votes = [v11, v22, v33, v44, v55]
 
 	await getRepository(Match).save(p2);
+
+	// P3
+	const p3 = new Match();
+	p3.home = ego
+	p3.away = tirpa
+	p3.loser = ego
+	p3.round = round;
+	p3.winner = tirpa;
+	p3.winType = WinType.REPLICA;
+	p3.words = await getAllMatchWords(['calma', 'twitter', 'duda', 'vejez', 'almas', 'parecido', 'amantes', 'puentes', 'tiktok', 'ensaimada', 'sabio', 'caramelos'], ['oportunidad', 'voz', 'trastorno', 'euro', 'carcel', 'like', 'fiesta', 'bloqueo', 'sitio', 'veneno', 'top', 'mama', 'medios', 'tarde', 'velocidad', 'ley', 'asistencia', 'igual', 'crpnica', 'registro', 'leon', 'rival', 'despido', 'cara']);
+	p3.thematics = await getAllThematics(['Isla', 'Super Poderes']);
+
+	const v111 = new Vote();
+	v111.judge = estrimo;
+	v111.match = p3;
+	v111.homePoints = 76.5;
+	v111.awayPoints = 77.5;
+	v111.winner = tirpa;
+	v111.loser = ego;
+
+	const v222 = new Vote();
+	v222.judge = noult;
+	v222.match = p3;
+	v222.homePoints = 77;
+	v222.awayPoints = 78;
+	
+	const v333 = new Vote();
+	v333.judge = babi;
+	v333.winner = tirpa;
+	v333.loser = ego;
+	v333.match = p3;
+	v333.homePoints = 75;
+	v333.awayPoints = 87.5;
+
+	const v444 = new Vote();
+	v444.judge = soen;
+	v444.winner = tirpa;
+	v444.loser = ego;
+	v444.match = p3;
+	v444.homePoints = 114;
+	v444.awayPoints = 101;
+
+	const v555 = new Vote();
+	v555.judge = kapo;
+	v555.winner = tirpa;
+	v555.loser = ego;
+	v555.match = p3;
+	v555.homePoints = 103;
+	v555.awayPoints = 107;
+
+	p3.votes = [v111, v222, v333, v444, v555]
+
+	await getRepository(Match).save(p3);
+
+	// P4 
+	const p4 = new Match();
+	p4.home = mnak
+	p4.away = khan
+	p4.loser = khan
+	p4.round = round;
+	p4.winner = mnak;
+	p4.winType = WinType.DIRECT;
+	p4.words = await getAllMatchWords(['coste', 'sobrada', 'nieve', 'puesto', 'whatsapp', 'arte', 'patron', 'nostalgia', 'telegram', 'plaza', 'astronauta', 'bocadillo'], ['giro', 'mundo','sitio', 'cristiano', 'ocasion', 'gesto', 'collazo', 'presa', 'moral', 'litro', 'foso', 'anestesia', 'brillo', 'vacio', 'cerrojo', 'superior', 'labios', 'suerte', 'barrio', 'sapo', 'pecho', 'vida', 'postura']);
+	p4.thematics = await getAllThematics(['Sentidos', 'Anime']);
+
+	const v1111 = new Vote();
+	v1111.judge = estrimo;
+	v1111.match = p4;
+	v1111.winner = mnak;
+	v1111.loser = khan;
+	v1111.homePoints = 75.5;
+	v1111.awayPoints = 65;
+
+	const v2222 = new Vote();
+	v2222.judge = noult;
+	v2222.match = p4;
+	v2222.homePoints = 77;
+	v2222.awayPoints = 77;
+	
+	const v3333 = new Vote();
+	v3333.judge = babi;
+	v3333.winner = mnak;
+	v3333.loser = khan;
+	v3333.match = p4;
+	v3333.homePoints = 82;
+	v3333.awayPoints = 74;
+
+	const v4444 = new Vote();
+	v4444.judge = soen;
+	v4444.winner = mnak;
+	v4444.loser = khan;
+	v4444.match = p4;
+	v4444.homePoints = 91.5;
+	v4444.awayPoints = 81;
+
+	const v5555 = new Vote();
+	v5555.judge = kapo;
+	v5555.winner = mnak;
+	v5555.loser = khan;
+	v5555.match = p4;
+	v5555.homePoints = 98.5;
+	v5555.awayPoints = 86.5;
+
+	p4.votes = [v1111, v2222, v3333, v4444, v5555]
+
+	await getRepository(Match).save(p4);
+
+	// P5
+	const p5 = new Match();
+	p5.home = errece;
+	p5.away = bnet
+	p5.loser = errece
+	p5.round = round;
+	p5.winner = bnet;
+	p5.winType = WinType.DIRECT;
+	p5.words = await getAllMatchWords(['discord', 'estreno', 'sticker', 'credito', 'muela', 'reto', 'gota', 'voluntario', 'skype', 'tiempo', 'pasion', 'ruina'], ['espart', 'money', 'ultima', 'valor', 'lucha', 'derrota', 'pais', 'tapa', 'figura', 'spray', 'modo', 'gato', 'pendiente', 'analisis', 'gente', 'certeza', 'burbuja', 'palacio', 'burro', 'inutil', 'jamas', 'coro', 'pan', 'julio']);
+	p5.thematics = await getAllThematics(['Leyendas Urbanas', 'Videojuegos']);
+
+	const v11111 = new Vote();
+	v11111.judge = estrimo;
+	v11111.match = p5;
+	v11111.winner = bnet;
+	v11111.loser = errece;
+	v11111.homePoints = 78.5;
+	v11111.awayPoints = 94;
+
+	const v22222 = new Vote();
+	v22222.judge = noult;
+	v22222.match = p5;
+	v22222.winner = bnet;
+	v22222.loser = errece;
+	v22222.homePoints = 74.5;
+	v22222.awayPoints = 93;
+
+	
+	const v33333 = new Vote();
+	v33333.judge = babi;
+	v33333.winner = bnet;
+	v33333.loser = errece;
+	v33333.match = p5;
+	v33333.homePoints = 82;
+	v33333.awayPoints = 97;
+
+	const v44444 = new Vote();
+	v44444.judge = soen;
+	v44444.winner = bnet;
+	v44444.loser = errece;
+	v44444.match = p5;
+	v44444.homePoints = 104;
+	v44444.awayPoints = 114.5
+
+	const v55555 = new Vote();
+	v55555.judge = kapo;
+	v55555.winner = bnet;
+	v55555.loser = errece;
+	v55555.match = p5;
+	v55555.homePoints = 111;	
+	v55555.awayPoints = 136;
+
+	p5.votes = [v11111, v22222, v33333, v44444, v55555]
+
+	await getRepository(Match).save(p5);
 	/* const roundsWithMatches = buildMatches(freestylers.length - 1, freestylers.map(e => e.id))
 
 	let roundAcc = 1;
