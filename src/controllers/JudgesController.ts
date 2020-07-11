@@ -3,6 +3,7 @@ import { JudgeStats } from "../entities/JudgeStats";
 import { Competition } from "../entities/Competition";
 import { Participant } from "../entities/Participant";
 import { Vote } from "../entities/Vote";
+import { MOST_VOTING_JUDGE_COMPETITION, CACHE_TIME, MOST_VOTING_JUDGE_GLOBAL } from "../utils/cacheKeys";
 
 class JudgesController {
 
@@ -32,6 +33,7 @@ class JudgesController {
 				.groupBy('judge.id')
 				.orderBy('avg', order)
 				.limit(1)
+				.cache({ id: MOST_VOTING_JUDGE_COMPETITION, milliseconds: CACHE_TIME })
 				.getRawOne() :
 			await getRepository(Vote)
 				.createQueryBuilder('vote')
@@ -40,6 +42,7 @@ class JudgesController {
 				.groupBy('judge.id')
 				.orderBy('avg', order)
 				.limit(1)
+				.cache({ id: MOST_VOTING_JUDGE_GLOBAL, milliseconds: CACHE_TIME })
 				.getRawOne();
 			return { judge, avg: judge?.avg };
 		} catch(e) {
