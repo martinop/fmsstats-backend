@@ -20,6 +20,9 @@ export class Competition extends BaseEntity {
   @Length(3, 50)
   name: string;
 
+  @Column()
+  imageUrl: string
+
   @ManyToMany(type => Participant, {cascade: true })
   @JoinTable()
   participants: Participant[];  

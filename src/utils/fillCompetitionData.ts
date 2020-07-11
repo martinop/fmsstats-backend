@@ -30,6 +30,7 @@ const thematics = Array.from({ length: 100 }).map(e => {
 
 export default async function fillCompetitionData(name: string, participants: Participant[]) {
 	const competition = new Competition();
+	competition.imageUrl = faker.image.imageUrl();
 	competition.name = name;
 	competition.participants = participants;
 

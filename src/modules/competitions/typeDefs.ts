@@ -30,6 +30,7 @@ export default `
   type Competition {
     name: String!
     id: Int!
+    imageUrl: String
     stats: CompetitionStats
     rounds: [Round]
   }
