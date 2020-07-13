@@ -1,6 +1,7 @@
 import { getManager, EntitySchema, getRepository } from "typeorm";
 import WordCompetition from "../entities/WordCompetition";
 import { Word } from "../entities/Word";
+import { MOST_USED_WORDS_GLOBAL, CACHE_TIME } from "../utils/cacheKeys";
 
 class WordsController {
   static getMostUsed = async (parent: { id: number }) => {
@@ -18,6 +19,7 @@ class WordsController {
           .groupBy('word.id')
           .orderBy('count', 'DESC')
           .limit(10)
+          .cache({ id: MOST_USED_WORDS_GLOBAL, millisecods: CACHE_TIME })
           .getRawMany();
         return words;
       }

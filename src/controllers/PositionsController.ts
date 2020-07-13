@@ -1,6 +1,7 @@
 import { getRepository } from "typeorm";
 import { Position } from "../entities/Position";
 import { Competition } from "../entities/Competition";
+import { CACHE_TIME, POSITIONS_COMPETITION, POSITIONS_GLOBAL, POSITION_AVG } from "../utils/cacheKeys";
 
 class PositionsController {
   static get = async function(parent: any, args: {[competition: string]: number}) {
@@ -10,7 +11,8 @@ class PositionsController {
 				.find({
 					relations: ['competition', 'participant'],
 					order: { points: 'DESC', ptb: 'DESC' },
-					...competition && { where: { competition }}
+					...competition && { where: { competition }},
+					cache: { id: competition ? POSITIONS_COMPETITION : POSITIONS_GLOBAL, milliseconds: CACHE_TIME }
 				});
 			return data;
 		} catch(e) {
@@ -30,6 +32,7 @@ class PositionsController {
 				.createQueryBuilder('competition')
 				.addSelect(`(${avgQuery})`, 'avg')
 				.orderBy('avg', 'DESC')
+				.cache({ id: POSITION_AVG, milliseconds: CACHE_TIME })
 				.execute();
 
 			const competitions = competitionsAvg.map((e: any) => ({
