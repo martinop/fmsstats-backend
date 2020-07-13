@@ -72,10 +72,12 @@ export class Match extends BaseEntity {
   thematics: Thematic[];
   
   getPTBAverage(participant: Participant) {
-    const ptb = this.votes.reduce((prev, current) => {
-      return prev + Number(participant.id === this.home.id ? current.homePoints : current.awayPoints)
-    }, 0);
-    return ptb / this.votes.length;
+    const pointsProp = participant.id === this.home.id ? 'homePoints' : 'awayPoints';
+    const sortedVotes = this.votes.sort((a,b) => a[pointsProp] - b[pointsProp]);
+    sortedVotes.shift()
+    sortedVotes.pop()
+    const ptb = sortedVotes.reduce((prev, current) => prev + Number(current[pointsProp]), 0);
+    return ptb;
   }
 
   updateJudgeStats() {
