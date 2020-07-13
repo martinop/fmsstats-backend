@@ -22,9 +22,6 @@ import { Thematic } from "./Thematic";
 import { Position } from "./Position";
 import { JudgeStats } from "./JudgeStats";
 
-function getParticipantPTB() {
-
-}
 @Entity()
 export class Match extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -73,10 +70,10 @@ export class Match extends BaseEntity {
   
   getPTBAverage(participant: Participant) {
     const pointsProp = participant.id === this.home.id ? 'homePoints' : 'awayPoints';
-    const sortedVotes = this.votes.sort((a,b) => a[pointsProp] - b[pointsProp]);
+    const sortedVotes = this.votes.sort((a,b) => a[pointsProp] - b[pointsProp]).map(e => e[pointsProp]);
     sortedVotes.shift()
     sortedVotes.pop()
-    const ptb = sortedVotes.reduce((prev, current) => prev + Number(current[pointsProp]), 0);
+    const ptb = sortedVotes.reduce((prev, current) => prev + Number(current), 0);
     return ptb;
   }
 
