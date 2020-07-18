@@ -202,8 +202,6 @@ export default async function fillCompetitionData(name: string, image: string, p
 	v111.match = p3;
 	v111.homePoints = 76.5;
 	v111.awayPoints = 77.5;
-	v111.winner = tirpa;
-	v111.loser = ego;
 
 	const v222 = new Vote();
 	v222.judge = noult;
@@ -229,8 +227,6 @@ export default async function fillCompetitionData(name: string, image: string, p
 
 	const v555 = new Vote();
 	v555.judge = kapo;
-	v555.winner = tirpa;
-	v555.loser = ego;
 	v555.match = p3;
 	v555.homePoints = 103;
 	v555.awayPoints = 107;

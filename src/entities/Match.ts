@@ -79,15 +79,21 @@ export class Match extends BaseEntity {
 
   updateJudgeStats() {
     for(const vote of this.votes) {
-      const correct = vote.winner ? vote.winner.id === this.winner.id : null;
+      let updatedValues : { [key: string]: () => string } = {}
+
+      const sameDirectWinner = vote.winner && vote.winner.id === this.winner.id && this.winType === WinType.DIRECT;
+      const isReplica = !vote.winner && this.winType === WinType.REPLICA;
+      if (sameDirectWinner || isReplica) {
+        updatedValues.corrects = () =>  'corrects + 1';
+        updatedValues.effectiveness = () => 'ROUND((corrects + 1) / CAST((corrects + fails + 1) as NUMERIC), 2)'
+      } else {
+        updatedValues.fails = () => 'fails + 1';
+        updatedValues.effectiveness = () => 'ROUND(corrects / CAST((corrects + fails + 1) as NUMERIC), 2)'
+      }
       getConnection()
         .createQueryBuilder()
         .update(JudgeStats)
-        .set({
-          ...correct && { corrects: () => 'corrects + 1', effectiveness: () => 'ROUND((corrects + 1) / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' },
-          ...!correct && { fails: () => 'fails + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' },
-          ...correct === null && { ties: () => 'ties + 1', effectiveness: () => 'ROUND(corrects / CAST((corrects + fails + ties + 1) as NUMERIC), 2)' }
-        })
+        .set(updatedValues)
         .where('"judgeId" = :judge', { judge: vote.judge.id })
         .andWhere('"competitionId" = :competition', { competition: this.round.competition.id })
         .execute();

@@ -25,9 +25,6 @@ export class JudgeStats extends BaseEntity {
 
 	@Column({ default: 0 })
   fails: number;
-  
-  @Column({ default: 0 })
-	ties: number;
 
 	@Column({ default: 0 })
 	corrects: number;
