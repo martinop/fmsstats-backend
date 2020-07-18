@@ -14,7 +14,136 @@ import { Word } from "../entities/Word";
 
 export class main1594063630166 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await fillCompetitionData("FMS Peru", "https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/fmsperu.jpg", peruParticipants)
+    const competitionPeru = await fillCompetitionData("FMS Peru", "https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/fmsperu.jpg", peruParticipants)
+    const roundp = new Round();
+    roundp.title = 'Jornada 1';
+    roundp.startAt = new Date();
+    roundp.calculated = true;
+    roundp.competition = competitionPeru;
+
+    await getRepository(Round).save(roundp);
+
+    const skill = peruParticipants.find(e => e.name === 'Skill') as Participant;
+    const choque = peruParticipants.find(e => e.name === 'Choque') as Participant;
+    const jaze = peruParticipants.find(e => e.name === 'Jaze') as Participant;
+    const jota = peruParticipants.find(e => e.name === 'Jota') as Participant;
+
+    const hbd = peruParticipants.find(e => e.name === 'HBD') as Participant;
+    const vellutino = peruParticipants.find(e => e.name === 'Vellutino') as Participant;
+    const joro = peruParticipants.find(e => e.name === 'Joro') as Participant;
+    const fox = peruParticipants.find(e => e.name === 'Fox') as Participant;
+    const gcr = peruParticipants.find(e => e.name === 'Gcr') as Participant;
+    
+    // P1
+    const pp1 = new Match();
+    pp1.home = choque
+    pp1.away = skill
+    pp1.winner = skill;
+    pp1.loser = choque
+    pp1.round = roundp;
+    pp1.winType = WinType.DIRECT;
+    pp1.words = await this.getAllMatchWords(['oportunidad', 'creacion', 'diamante', 'paseo', 'ceremonia', 'estreno', 'valor', 'pesca', 'vision', 'tierra', 'luz', 'redes'], ['sandalias', 'chicha', 'quiebra', 'ardilla', 'razon', 'timbre', 'lluvia', 'redacta', 'tuberia', 'cuba', 'region', 'ardor', 'daga', 'iglesia', 'chela', 'huerto', 'rama', 'paraiso', 'instinto', 'simple']);
+    pp1.thematics = await this.getAllThematics(['Tahuantinsuyo', 'Congreso']);
+
+    const pv1 = new Vote();
+    pv1.judge = vellutino;
+    pv1.winner = skill;
+    pv1.loser = choque;
+    pv1.match = pp1;
+    pv1.homePoints = 58;
+    pv1.awayPoints = 76.5;
+    
+    const pv2 = new Vote();
+    pv2.judge = fox;
+    pv2.winner = skill;
+    pv2.loser = choque;
+    pv2.match = pp1;
+    pv2.homePoints = 72;
+    pv2.awayPoints = 86;
+    
+    const pv3 = new Vote();
+    pv3.judge = joro;
+    pv3.winner = skill;
+    pv3.loser = choque;
+    pv3.match = pp1;
+    pv3.homePoints = 110;
+    pv3.awayPoints = 124;
+  
+    const pv4 = new Vote();
+    pv4.judge = gcr;
+    pv4.winner = skill;
+    pv4.loser = choque;
+    pv4.match = pp1;
+    pv4.homePoints = 55;
+    pv4.awayPoints = 107.5;
+  
+    const pv5 = new Vote();
+    pv5.judge = hbd;
+    pv5.winner = skill;
+    pv5.loser = choque;
+    pv5.match = pp1;
+    pv5.homePoints = 85.5;
+    pv5.awayPoints = 101;
+  
+    pp1.votes = [pv1, pv2, pv3, pv4, pv5]
+  
+    await getRepository(Match).save(pp1);
+    
+    // P2
+    const pp2 = new Match();
+    pp2.home = jaze
+    pp2.away = jota
+    pp2.winner = jota;
+    pp2.loser = jaze
+    pp2.round = roundp;
+    pp2.winType = WinType.DIRECT;
+    pp2.words = await this.getAllMatchWords(['corona', 'leon', 'youtube', 'directo', 'hielo', 'reaccion', 'valor', 'silencio', 'clima', 'tesoro', 'calendario', 'pueblo'], ['costa', 'material', 'iris', 'chamba', 'mosca', 'lento', 'sal', 'antartida', 'trailer', 'messi', 'cicatriz', 'tren', 'arena', 'cadena', 'ejecucion', 'problema', 'paz', 'kharma', 'cuchillo', 'acto']);
+    pp2.thematics = await this.getAllThematics(['Tahuantinsuyo', 'Congreso']);
+
+    const pv11 = new Vote();
+    pv11.judge = vellutino;
+    pv11.winner = jaze;
+    pv11.loser = jota;
+    pv11.match = pp2;
+    pv11.homePoints = 129.5;
+    pv11.awayPoints = 117;
+    
+    const pv22 = new Vote();
+    pv22.judge = fox;
+    pv22.winner = jota;
+    pv22.loser = jaze;
+    pv22.match = pp2;
+    pv22.homePoints = 96.5;
+    pv22.awayPoints = 106;
+    
+    const pv33 = new Vote();
+    pv33.judge = joro;
+    pv33.winner = jota;
+    pv33.loser = jaze;
+    pv33.match = pp2;
+    pv33.homePoints = 96.5;
+    pv33.awayPoints = 111.5
+  
+    const pv44 = new Vote();
+    pv44.judge = gcr;
+    pv44.winner = jota;
+    pv44.loser = jaze;
+    pv44.match = pp2;
+    pv44.homePoints = 93.5;
+    pv44.awayPoints = 104;
+  
+    const pv55 = new Vote();
+    pv55.judge = hbd;
+    pv55.winner = jota;
+    pv55.loser = jaze;
+    pv55.match = pp2;
+    pv55.homePoints = 76.5;
+    pv55.awayPoints = 89
+  
+    pp2.votes = [pv11, pv22, pv33, pv44, pv55]
+  
+    await getRepository(Match).save(pp2);
+    
     const competition = await fillCompetitionData("FMS España", "https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/fmsspain.jpg", spainParticipants)
     
     const round = new Round();
