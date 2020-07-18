@@ -37,6 +37,6 @@ export class Position extends BaseEntity {
 	@Column({ default: 0 })
 	losesReplica: number;
 
-	@Column({ default: 0 })
+  @Column({ default: 0, type: 'numeric' })
 	ptb: number;
 }

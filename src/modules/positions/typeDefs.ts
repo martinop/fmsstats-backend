@@ -7,7 +7,7 @@ export default `
 		loses: Int
 		winsReplica: Int
 		losesReplica: Int
-		ptb: Int
+		ptb: Float
 		competition: Competition
 		participant: Participant
 	}

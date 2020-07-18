@@ -255,14 +255,14 @@ export default async function fillCompetitionData(name: string, image: string, p
 	v1111.match = p4;
 	v1111.winner = mnak;
 	v1111.loser = khan;
-	v1111.homePoints = 75.5;
+	v1111.homePoints = 79.5;
 	v1111.awayPoints = 65;
 
 	const v2222 = new Vote();
 	v2222.judge = noult;
 	v2222.match = p4;
 	v2222.homePoints = 77;
-	v2222.awayPoints = 77;
+	v2222.awayPoints = 67;
 	
 	const v3333 = new Vote();
 	v3333.judge = babi;
