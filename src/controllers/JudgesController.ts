@@ -33,7 +33,7 @@ class JudgesController {
 				.groupBy('judge.id')
 				.orderBy('avg', order)
 				.limit(1)
-				.cache({ id: MOST_VOTING_JUDGE_COMPETITION, milliseconds: CACHE_TIME })
+				// .cache({ id: MOST_VOTING_JUDGE_COMPETITION, milliseconds: CACHE_TIME })
 				.getRawOne() :
 			await getRepository(Vote)
 				.createQueryBuilder('vote')
@@ -42,7 +42,7 @@ class JudgesController {
 				.groupBy('judge.id')
 				.orderBy('avg', order)
 				.limit(1)
-				.cache({ id: MOST_VOTING_JUDGE_GLOBAL, milliseconds: CACHE_TIME })
+				// .cache({ id: MOST_VOTING_JUDGE_GLOBAL, milliseconds: CACHE_TIME })
 				.getRawOne();
 			return { judge, avg: judge?.avg };
 		} catch(e) {

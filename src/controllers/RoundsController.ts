@@ -7,7 +7,7 @@ class RoundsController {
   static getMatches = async (parent: Round) => {
     try {
       const matches = getRepository(Match)
-        .find({ where: { round: parent.id }, cache: { id: ROUND_MATCHES, milliseconds: CACHE_TIME } })
+        .find({ where: { round: parent.id }, /* cache: { id: ROUND_MATCHES, milliseconds: CACHE_TIME }*/ })
       return matches;
     } catch(e) {
       throw new Error(e);

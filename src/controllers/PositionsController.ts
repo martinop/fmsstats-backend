@@ -12,7 +12,7 @@ class PositionsController {
 					relations: ['competition', 'participant'],
 					order: { points: 'DESC', ptb: 'DESC' },
 					...competition && { where: { competition }},
-					cache: { id: competition ? POSITIONS_COMPETITION : POSITIONS_GLOBAL, milliseconds: CACHE_TIME }
+					// cache: { id: competition ? POSITIONS_COMPETITION : POSITIONS_GLOBAL, milliseconds: CACHE_TIME }
 				});
 			return data;
 		} catch(e) {
@@ -32,7 +32,7 @@ class PositionsController {
 				.createQueryBuilder('competition')
 				.addSelect(`(${avgQuery})`, 'avg')
 				.orderBy('avg', 'DESC')
-				.cache({ id: POSITION_AVG, milliseconds: CACHE_TIME })
+				// .cache({ id: POSITION_AVG, milliseconds: CACHE_TIME })
 				.execute();
 
 			const competitions = competitionsAvg.map((e: any) => ({

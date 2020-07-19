@@ -8,7 +8,7 @@ class VotesController {
   static getJudge = async (parent: Vote) => {
 		try {
       const participant = await getRepository(Vote)
-				.findOne({ relations: ['judge'], where: { id: parent.id }, cache: { id: VOTE_JUDGE, milliseconds: CACHE_TIME } });
+				.findOne({ relations: ['judge'], where: { id: parent.id }, /* cache: { id: VOTE_JUDGE, milliseconds: CACHE_TIME }*/ });
       return participant?.judge;
     } catch(e) {
       throw new Error(e);
@@ -18,7 +18,7 @@ class VotesController {
   static getWinner = async (parent: Vote) => {
 		try {
       const participant = await getRepository(Vote)
-				.findOne({ relations: ['winner'], where: { id: parent.id }, cache: { id: VOTE_WINNER, milliseconds: CACHE_TIME } });
+				.findOne({ relations: ['winner'], where: { id: parent.id }, /* cache: { id: VOTE_WINNER, milliseconds: CACHE_TIME } */});
       return participant?.winner;
     } catch(e) {
       throw new Error(e);
@@ -28,7 +28,7 @@ class VotesController {
   static getLoser = async (parent: Vote) => {
 		try {
       const participant = await getRepository(Vote)
-				.findOne({ relations: ['loser'], where: { id: parent.id }, cache: { id: VOTE_LOSER, milliseconds: CACHE_TIME } });
+				.findOne({ relations: ['loser'], where: { id: parent.id }, /* cache: { id: VOTE_LOSER, milliseconds: CACHE_TIME } */ });
       return participant?.loser;
     } catch(e) {
       throw new Error(e);

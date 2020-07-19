@@ -19,7 +19,7 @@ class WordsController {
           .groupBy('word.id')
           .orderBy('count', 'DESC')
           .limit(10)
-          .cache({ id: MOST_USED_WORDS_GLOBAL, millisecods: CACHE_TIME })
+          // .cache({ id: MOST_USED_WORDS_GLOBAL, millisecods: CACHE_TIME })
           .getRawMany();
         return words;
       }

@@ -6,7 +6,7 @@ class ParticipantsController {
   static getAll = async () => {
     try {
       const participants = await getRepository(Participant)
-        .find({ cache: { id: ALL_PARTICIPANTS, milliseconds: CACHE_TIME } });
+        .find({ /* cache: { id: ALL_PARTICIPANTS, milliseconds: CACHE_TIME }*/ });
       return participants;
     } catch(e) {
       throw new Error(e);
@@ -17,7 +17,7 @@ class ParticipantsController {
     const { id } = args;
     try {
       const participant = await getRepository(Participant)
-        .findOne({ where: { id: +id }, cache: { id: PARTICIPANT_BY_ID, milliseconds: CACHE_TIME } });
+        .findOne({ where: { id: +id }, /* cache: { id: PARTICIPANT_BY_ID, milliseconds: CACHE_TIME }*/ });
       return participant;
     } catch(e) {
       throw new Error(e);
