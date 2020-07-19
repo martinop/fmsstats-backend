@@ -27,6 +27,10 @@ export class main1594063630166 implements MigrationInterface {
     const choque = peruParticipants.find(e => e.name === 'Choque') as Participant;
     const jaze = peruParticipants.find(e => e.name === 'Jaze') as Participant;
     const jota = peruParticipants.find(e => e.name === 'Jota') as Participant;
+    const strike = peruParticipants.find(e => e.name === 'Strike') as Participant;
+    const litzen = peruParticipants.find(e => e.name === 'Litzen') as Participant;
+    const nekroos = peruParticipants.find(e => e.name === 'Nekroos') as Participant;
+    const newera = peruParticipants.find(e => e.name === 'New Era') as Participant;
 
     const hbd = peruParticipants.find(e => e.name === 'HBD') as Participant;
     const vellutino = peruParticipants.find(e => e.name === 'Vellutino') as Participant;
@@ -143,6 +147,111 @@ export class main1594063630166 implements MigrationInterface {
     pp2.votes = [pv11, pv22, pv33, pv44, pv55]
   
     await getRepository(Match).save(pp2);
+
+    // P3
+    const pp3 = new Match();
+    pp3.home = strike
+    pp3.away = litzen
+    pp3.winner = strike;
+    pp3.loser = litzen
+    pp3.round = roundp;
+    pp3.winType = WinType.REPLICA;
+    pp3.words = await this.getAllMatchWords(["salario", "inmunidad", "marina", "seguro", "protección", "reciclaje", "reloj", "energía", "comedia", "vencido", "resistencia", "liquido"], ["emoji", "pez", "signos", "cruel", "fanatico", "rock", "duda", "medio", "animación", "tenso", "lata", "armadura", "publicidad", "ascenso", "purga", "hambre", "inocente", "abeja", "cuello", "quinta", "alarma", "techo", "cima", "intimo"]);
+    pp3.thematics = await this.getAllThematics(['Ceviche', 'Distritos']);
+
+    const pv111 = new Vote();
+    pv111.judge = vellutino;
+    pv111.match = pp3;
+    pv111.homePoints = 99
+    pv111.awayPoints = 100;
+        
+    const pv222 = new Vote();
+    pv222.judge = fox;
+    pv222.winner = strike;
+    pv222.loser = litzen;
+    pv222.match = pp3;
+    pv222.homePoints = 73
+    pv222.awayPoints = 63
+    
+    const pv333 = new Vote();
+    pv333.judge = joro;
+    pv333.match = pp3;
+    pv333.homePoints = 62
+    pv333.awayPoints = 62
+  
+    const pv444 = new Vote();
+    pv444.judge = gcr;
+    pv444.winner = litzen;
+    pv444.loser = strike;
+    pv444.match = pp3;
+    pv444.homePoints = 70.5
+    pv444.awayPoints = 90;
+  
+    const pv555 = new Vote();
+    pv555.judge = hbd;
+    pv555.match = pp3;
+    pv555.homePoints = 81;
+    pv555.awayPoints = 81;
+  
+    pp3.votes = [pv111, pv222, pv333, pv444, pv555]
+  
+    await getRepository(Match).save(pp3);
+
+    
+
+    // P4
+    const pp4 = new Match();
+    pp4.home = nekroos
+    pp4.away = newera;
+    pp4.winner = nekroos;
+    pp4.loser = newera;
+    pp4.round = roundp;
+    pp4.winType = WinType.DIRECT;
+    pp4.words = await this.getAllMatchWords(["apuestas", "inca", "provincia", "ironia", "invasion", "final", "agua", "columna", "delfín", "teclado", "lentes", "monumento"], ["rencor", "sencillo", "raza", "uva", "asilo", "madera", "ruleta", "metal", "resta", "drama", "madurar", "temporada", "pozo", "regla", "puntualidad", "causa", "te", "escuela", "gala", "elemento", "truco", "celda", "puerta", "mundial"])
+    pp4.thematics = await this.getAllThematics(['Sierra', 'Sistema']);
+
+    const pv1111 = new Vote();
+    pv1111.judge = vellutino;
+    pv1111.match = pp4;
+    pv1111.winner = nekroos;
+    pv1111.loser = newera;
+    pv1111.homePoints = 77.5
+    pv1111.awayPoints = 64;
+        
+    const pv2222 = new Vote();
+    pv2222.judge = fox;
+    pv2222.winner = nekroos;
+    pv2222.loser = newera;
+    pv2222.match = pp4;
+    pv2222.homePoints = 70;
+    pv2222.awayPoints = 57.5;
+    
+    const pv3333 = new Vote();
+    pv3333.judge = joro;
+    pv3333.match = pp4;
+    pv3333.winner = nekroos;
+    pv3333.loser = newera;
+    pv3333.homePoints = 86.5
+    pv3333.awayPoints = 72.5
+  
+    const pv4444 = new Vote();
+    pv4444.judge = gcr;
+    pv4444.match = pp4;
+    pv4444.homePoints = 75
+    pv4444.awayPoints = 72;
+  
+    const pv5555 = new Vote();
+    pv5555.judge = hbd;
+    pv5555.match = pp4;
+    pv5555.winner = nekroos;
+    pv5555.loser = newera;
+    pv5555.homePoints = 80;
+    pv5555.awayPoints = 65;
+  
+    pp4.votes = [pv1111, pv2222, pv3333, pv4444, pv5555]
+  
+    await getRepository(Match).save(pp4);
+
     
     const competition = await fillCompetitionData("FMS España", "https://freetrivias.s3-us-west-2.amazonaws.com/freestylers/fmsspain.jpg", spainParticipants)
     
